@@ -67,6 +67,10 @@ type ResultConstructor<K extends keyof Result> = {
   new (...args: unknown[]): Result[K];
 };
 
+type ResolveResult<T extends { [K in keyof Result]?: ResultConstructor<K> }> = {
+  [K in keyof T]: K extends keyof Result ? Result[K] : never;
+};
+
 export abstract class ChargebeeResource {
   constructor(protected readonly chargebee: ChargeBee) {}
 
@@ -74,7 +78,7 @@ export abstract class ChargebeeResource {
     <TResult extends { [K in keyof Result]?: ResultConstructor<K> }>(
       result: TResult,
     ) =>
-    (value: Result): TResult => {
+    (value: Result) => {
       const descriptors = Object.getOwnPropertyDescriptors(
         value.constructor.prototype,
       );
@@ -85,7 +89,7 @@ export abstract class ChargebeeResource {
         properties
           .filter((key) => Object.keys(result).includes(key))
           .map((key) => [key, value[key]]),
-      ) as TResult;
+      ) as ResolveResult<TResult>;
     };
 
   protected request<
@@ -102,7 +106,7 @@ export abstract class ChargebeeResource {
         ) =>
         async (
           ...args: Parameters<ChargeBeeResultFunction<TResource, TMethod>>
-        ): Promise<TResult> => {
+        ): Promise<ResolveResult<TResult>> => {
           return this.chargebee[resourceProp][methodProp as unknown as TMethod](
             ...args,
           )
@@ -126,7 +130,7 @@ export abstract class ChargebeeResource {
         ) =>
         async (
           ...args: Parameters<ChargeBeeListResultFunction<TResource, TMethod>>
-        ): Promise<TResult[]> => {
+        ): Promise<ResolveResult<TResult>[]> => {
           const request = (offset: string | undefined): Promise<ListResult> => {
             const forwardArgs = args.map((arg) =>
               Object.assign(arg, { offset }),
@@ -147,15 +151,15 @@ export abstract class ChargebeeResource {
               ? args[0]?.offset
               : undefined;
 
-          const items: TResult[] = [];
+          const items: Result[] = [];
 
           do {
             const response = await request(offset);
-            items.push(...response.list.map(this.resolveGetters(result)));
+            items.push(...response.list);
             offset = response.next_offset;
           } while (offset);
 
-          return items;
+          return items.map(this.resolveGetters(result));
         },
     };
   }
@@ -174,7 +178,7 @@ export abstract class ChargebeeResource {
         ) =>
         async (
           ...args: Parameters<ChargeBeeResultFunction<TResource, TMethod>>
-        ): Promise<TResult> => {
+        ): Promise<ResolveResult<TResult>> => {
           return await this.chargebee[resourceProp][
             methodProp as unknown as TMethod
           ](...args)
