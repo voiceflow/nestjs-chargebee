@@ -6,11 +6,11 @@ export class SubscriptionEntitlementResource extends ChargebeeResource {
       "subscription_entitlement",
       "subscription_entitlements_for_subscription",
     )
-    .returns<{ subscription_entitlement: SubscriptionEntitlement }>();
+    .returns({ subscription_entitlement: SubscriptionEntitlement });
   public readonly setSubscriptionEntitlementAvailability = super
     .request(
       "subscription_entitlement",
       "set_subscription_entitlement_availability",
     )
-    .returns<{ subscription_entitlement: SubscriptionEntitlement }>();
+    .returns({ subscription_entitlement: SubscriptionEntitlement });
 }

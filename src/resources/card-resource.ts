@@ -8,17 +8,17 @@ import { ChargebeeResource } from "./abstract-resource";
 export class CardResource extends ChargebeeResource {
   public readonly retrieve = super
     .request("card", "retrieve")
-    .returns<{ card: Card }>();
+    .returns({ card: Card });
   public readonly updateCardForCustomer = super
     .request("card", "update_card_for_customer")
-    .returns<{ card: Card; customer: Customer }>();
+    .returns({ card: Card, customer: Customer });
   public readonly switchGatewayForCustomer = super
     .request("card", "switch_gateway_for_customer")
-    .returns<{ card: Card; customer: Customer }>();
+    .returns({ card: Card, customer: Customer });
   public readonly copyCardForCustomer = super
     .request("card", "copy_card_for_customer")
-    .returns<{ third_party_payment_method: ThirdPartyPaymentMethod }>();
+    .returns({ third_party_payment_method: ThirdPartyPaymentMethod });
   public readonly deleteCardForCustomer = super
     .request("card", "delete_card_for_customer")
-    .returns<{ customer: Customer }>();
+    .returns({ customer: Customer });
 }

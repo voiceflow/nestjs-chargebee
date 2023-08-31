@@ -6,11 +6,11 @@ export class EntitlementOverrideResource extends ChargebeeResource {
       "entitlement_override",
       "add_entitlement_override_for_subscription",
     )
-    .returns<{ entitlement_override: EntitlementOverride }>();
+    .returns({ entitlement_override: EntitlementOverride });
   public readonly listEntitlementOverrideForSubscription = super
     .listRequest(
       "entitlement_override",
       "list_entitlement_override_for_subscription",
     )
-    .returns<{ entitlement_override: EntitlementOverride }>();
+    .returns({ entitlement_override: EntitlementOverride });
 }

@@ -63,12 +63,18 @@ type ChargeBeeProcessWaitMethodName<
   ? TMethod
   : "Method must return a ProcessWait";
 
+type ResultConstructor<K extends keyof Result> = {
+  new (...args: unknown[]): Result[K];
+};
+
 export abstract class ChargebeeResource {
   constructor(protected readonly chargebee: ChargeBee) {}
 
   private resolveGetters =
-    <TResult extends { [K in keyof Result]?: unknown }>(result?: TResult) =>
-    (value: Result) => {
+    <TResult extends { [K in keyof Result]?: ResultConstructor<K> }>(
+      result: TResult,
+    ) =>
+    (value: Result): TResult => {
       const descriptors = Object.getOwnPropertyDescriptors(
         value.constructor.prototype,
       );
@@ -77,12 +83,9 @@ export abstract class ChargebeeResource {
         .map(([key]) => key as keyof Result);
       return Object.fromEntries(
         properties
-          .filter(
-            (key) =>
-              (result ? Object.keys(result) : undefined)?.includes(key) ?? true,
-          )
+          .filter((key) => Object.keys(result).includes(key))
           .map((key) => [key, value[key]]),
-      );
+      ) as TResult;
     };
 
   protected request<
@@ -94,7 +97,9 @@ export abstract class ChargebeeResource {
   ) {
     return {
       returns:
-        <TResult extends { [K in keyof Result]?: unknown }>(result?: TResult) =>
+        <TResult extends { [K in keyof Result]?: ResultConstructor<K> }>(
+          result: TResult,
+        ) =>
         async (
           ...args: Parameters<ChargeBeeResultFunction<TResource, TMethod>>
         ): Promise<TResult> => {
@@ -116,11 +121,13 @@ export abstract class ChargebeeResource {
   ) {
     return {
       returns:
-        <TResult extends { [K in keyof Result]?: unknown }>(result?: TResult) =>
+        <TResult extends { [K in keyof Result]?: ResultConstructor<K> }>(
+          result: TResult,
+        ) =>
         async (
           ...args: Parameters<ChargeBeeListResultFunction<TResource, TMethod>>
         ): Promise<TResult[]> => {
-          const request = (offset: string | undefined) => {
+          const request = (offset: string | undefined): Promise<ListResult> => {
             const forwardArgs = args.map((arg) =>
               Object.assign(arg, { offset }),
             );
@@ -162,7 +169,9 @@ export abstract class ChargebeeResource {
   ) {
     return {
       returns:
-        <TResult extends { [K in keyof Result]?: unknown }>(result?: TResult) =>
+        <TResult extends { [K in keyof Result]?: ResultConstructor<K> }>(
+          result: TResult,
+        ) =>
         async (
           ...args: Parameters<ChargeBeeResultFunction<TResource, TMethod>>
         ): Promise<TResult> => {
