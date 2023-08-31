@@ -1,5 +1,5 @@
 import { CouponCode } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "../chargebee-resource.class";
+import { ChargebeeResource } from "./abstract-resource";
 export class CouponCodeResource extends ChargebeeResource {
   public readonly create = super
     .request("coupon_code", "create")

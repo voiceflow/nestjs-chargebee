@@ -1,5 +1,5 @@
 import { PaymentVoucher } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "../chargebee-resource.class";
+import { ChargebeeResource } from "./abstract-resource";
 export class PaymentVoucherResource extends ChargebeeResource {
   public readonly create = super
     .request("payment_voucher", "create")

@@ -1,5 +1,5 @@
 import { TimeMachine } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "../chargebee-resource.class";
+import { ChargebeeResource } from "./abstract-resource";
 export class TimeMachineResource extends ChargebeeResource {
   public readonly waitForTimeTravelCompletion = super
     .processWait("time_machine", "wait_for_time_travel_completion")

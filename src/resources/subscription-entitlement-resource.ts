@@ -1,5 +1,5 @@
 import { SubscriptionEntitlement } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "../chargebee-resource.class";
+import { ChargebeeResource } from "./abstract-resource";
 export class SubscriptionEntitlementResource extends ChargebeeResource {
   public readonly subscriptionEntitlementsForSubscription = super
     .listRequest(

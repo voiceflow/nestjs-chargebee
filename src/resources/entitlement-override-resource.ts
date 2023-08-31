@@ -1,5 +1,5 @@
 import { EntitlementOverride } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "../chargebee-resource.class";
+import { ChargebeeResource } from "./abstract-resource";
 export class EntitlementOverrideResource extends ChargebeeResource {
   public readonly addEntitlementOverrideForSubscription = super
     .request(

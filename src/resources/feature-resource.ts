@@ -1,5 +1,5 @@
 import { Feature } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "../chargebee-resource.class";
+import { ChargebeeResource } from "./abstract-resource";
 export class FeatureResource extends ChargebeeResource {
   public readonly list = super
     .listRequest("feature", "list")

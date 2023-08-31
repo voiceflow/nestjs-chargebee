@@ -3,7 +3,7 @@ import {
   Customer,
   ThirdPartyPaymentMethod,
 } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "../chargebee-resource.class";
+import { ChargebeeResource } from "./abstract-resource";
 
 export class CardResource extends ChargebeeResource {
   public readonly retrieve = super

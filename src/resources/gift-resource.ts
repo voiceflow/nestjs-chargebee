@@ -1,5 +1,5 @@
 import { Gift } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "../chargebee-resource.class";
+import { ChargebeeResource } from "./abstract-resource";
 export class GiftResource extends ChargebeeResource {
   public readonly create = super
     .request("gift", "create")

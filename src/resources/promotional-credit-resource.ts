@@ -1,5 +1,5 @@
 import { PromotionalCredit } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "../chargebee-resource.class";
+import { ChargebeeResource } from "./abstract-resource";
 export class PromotionalCreditResource extends ChargebeeResource {
   public readonly add = super
     .request("promotional_credit", "add")

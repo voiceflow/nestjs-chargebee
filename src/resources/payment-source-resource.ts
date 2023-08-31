@@ -1,5 +1,5 @@
 import { PaymentSource } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "../chargebee-resource.class";
+import { ChargebeeResource } from "./abstract-resource";
 export class PaymentSourceResource extends ChargebeeResource {
   public readonly createUsingTempToken = super
     .request("payment_source", "create_using_temp_token")

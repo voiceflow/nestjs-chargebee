@@ -1,5 +1,5 @@
 import { DifferentialPrice } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "../chargebee-resource.class";
+import { ChargebeeResource } from "./abstract-resource";
 export class DifferentialPriceResource extends ChargebeeResource {
   public readonly create = super
     .request("differential_price", "create")

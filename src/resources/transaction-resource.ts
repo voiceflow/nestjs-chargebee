@@ -1,5 +1,5 @@
 import { Transaction } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "../chargebee-resource.class";
+import { ChargebeeResource } from "./abstract-resource";
 export class TransactionResource extends ChargebeeResource {
   public readonly createAuthorization = super
     .request("transaction", "create_authorization")

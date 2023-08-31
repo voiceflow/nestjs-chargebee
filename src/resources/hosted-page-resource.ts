@@ -1,5 +1,5 @@
 import { HostedPage } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "../chargebee-resource.class";
+import { ChargebeeResource } from "./abstract-resource";
 export class HostedPageResource extends ChargebeeResource {
   public readonly checkoutNew = super
     .request("hosted_page", "checkout_new")

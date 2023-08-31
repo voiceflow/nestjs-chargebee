@@ -1,5 +1,5 @@
 import { Download, Export } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "../chargebee-resource.class";
+import { ChargebeeResource } from "./abstract-resource";
 export class ExportResource extends ChargebeeResource {
   public readonly waitForExportCompletion = super
     .processWait("export", "wait_for_export_completion")

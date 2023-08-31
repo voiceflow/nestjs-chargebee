@@ -1,5 +1,5 @@
 import { Estimate } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "../chargebee-resource.class";
+import { ChargebeeResource } from "./abstract-resource";
 export class EstimateResource extends ChargebeeResource {
   public readonly createSubscription = super
     .request("estimate", "create_subscription")

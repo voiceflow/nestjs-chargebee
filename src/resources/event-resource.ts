@@ -1,5 +1,5 @@
 import { Event } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "../chargebee-resource.class";
+import { ChargebeeResource } from "./abstract-resource";
 export class EventResource extends ChargebeeResource {
   public readonly list = super
     .listRequest("event", "list")

@@ -1,5 +1,5 @@
 import { Quote } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "../chargebee-resource.class";
+import { ChargebeeResource } from "./abstract-resource";
 export class QuoteResource extends ChargebeeResource {
   public readonly retrieve = super
     .request("quote", "retrieve")

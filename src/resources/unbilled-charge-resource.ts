@@ -1,5 +1,5 @@
 import { UnbilledCharge } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "../chargebee-resource.class";
+import { ChargebeeResource } from "./abstract-resource";
 export class UnbilledChargeResource extends ChargebeeResource {
   public readonly createUnbilledCharge = super
     .request("unbilled_charge", "create_unbilled_charge")

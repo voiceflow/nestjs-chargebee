@@ -1,5 +1,5 @@
 import { InAppSubscription } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "../chargebee-resource.class";
+import { ChargebeeResource } from "./abstract-resource";
 export class InAppSubscriptionResource extends ChargebeeResource {
   public readonly processReceipt = super
     .request("in_app_subscription", "process_receipt")

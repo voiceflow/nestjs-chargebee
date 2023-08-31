@@ -1,5 +1,5 @@
 import { VirtualBankAccount } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "../chargebee-resource.class";
+import { ChargebeeResource } from "./abstract-resource";
 export class VirtualBankAccountResource extends ChargebeeResource {
   public readonly createUsingPermanentToken = super
     .request("virtual_bank_account", "create_using_permanent_token")
