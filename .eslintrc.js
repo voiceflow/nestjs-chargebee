@@ -10,7 +10,15 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
   ],
-  overrides: [],
+  overrides: [
+    {
+      files: ["src/resources/**/*"],
+      rules: {
+        "@typescript-eslint/no-explicit-any": ["off"],
+        "no-irregular-whitespace": ["off"],
+      },
+    },
+  ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaVersion: "latest",
