@@ -5,29 +5,94 @@ import type { ListResult } from "chargebee-typescript/lib/list_result";
 import type { Result } from "chargebee-typescript/lib/result";
 import type { ProcessWait } from "chargebee-typescript/lib/process_wait";
 
-type ChargeBeeResultMethodName<
+export class ChargebeeResource {
+  constructor(protected readonly chargebee: ChargeBee) {}
+
+  protected request<
+    TResourceName extends keyof ChargeBee,
+    TMethodName extends keyof ChargeBee[TResourceName],
+    TReturning extends ResourceResult,
+  >(
+    resourceName: TResourceName,
+    methodName: TMethodName extends ResultMethodName<TResourceName, TMethodName>
+      ? TMethodName
+      : never,
+    returning: TReturning,
+  ) {
+    type MethodDefinition = ChargeBee[TResourceName][TMethodName] extends (
+      ...args: unknown[]
+    ) => RequestWrapper<Result>
+      ? ChargeBee[TResourceName][TMethodName]
+      : never;
+
+    const functionDef = this.chargebee[resourceName][
+      methodName
+    ] as MethodDefinition;
+
+    return async (...args: Parameters<MethodDefinition>) => {
+      return functionDef(...args)
+        .request()
+        .then(this.resolveResult(returning));
+    };
+  }
+
+  protected listRequest<
+    TResourceName extends keyof ChargeBee,
+    TMethodName extends keyof ChargeBee[TResourceName],
+    TReturning extends ResourceResult,
+  >(
+    resourceName: TResourceName,
+    methodName: TMethodName extends ListResultMethodName<
+      TResourceName,
+      TMethodName
+    >
+      ? TMethodName
+      : never,
+    returning: TReturning,
+  ) {
+    type MethodDefinition = ChargeBee[TResourceName][TMethodName] extends (
+      ...args: unknown[]
+    ) => RequestWrapper<ListResult>
+      ? ChargeBee[TResourceName][TMethodName]
+      : never;
+
+    const functionDef = this.chargebee[resourceName][
+      methodName
+    ] as MethodDefinition;
+
+    return async (...args: Parameters<MethodDefinition>) => {
+      return functionDef(...args)
+        .request()
+        .then((listResult) => {
+          const items = listResult.list.map(this.resolveResult(returning));
+          return {
+            items,
+            nextOffset: listResult.next_offset as string | undefined,
+          };
+        });
+    };
+  }
+
+  private resolveResult =
+    <TReturning extends ResourceResult>(returning: TReturning) =>
+    (result: Result) =>
+      Object.fromEntries(
+        Object.keys(returning).map((key) => [key, result[key as keyof Result]]),
+      ) as ResolveResultReturn<TReturning>;
+}
+
+type ResultMethodName<
   TResource extends keyof ChargeBee,
   TMethod extends keyof ChargeBee[TResource],
 > = ChargeBee[TResource][TMethod] extends (
   ...args: unknown[]
 ) => RequestWrapper<infer R>
-  ? R extends Result
+  ? R extends Result | ProcessWait
     ? TMethod
-    : "Method must return a RequestWrapper<Result>"
+    : "Method must return a RequestWrapper<Result | ProcessWait>"
   : never;
 
-type ChargeBeeResultFunction<
-  TResource extends keyof ChargeBee,
-  TMethod extends keyof ChargeBee[TResource],
-> = ChargeBee[TResource][TMethod] extends (
-  ...args: unknown[]
-) => RequestWrapper<infer R>
-  ? R extends Result
-    ? ChargeBee[TResource][TMethod]
-    : never
-  : never;
-
-type ChargeBeeListResultMethodName<
+type ListResultMethodName<
   TResource extends keyof ChargeBee,
   TMethod extends keyof ChargeBee[TResource],
 > = ChargeBee[TResource][TMethod] extends (
@@ -38,153 +103,16 @@ type ChargeBeeListResultMethodName<
     : "Method must return a RequestWrapper<ListResult>"
   : never;
 
-type ChargeBeeListResultFunction<
-  TResource extends keyof ChargeBee,
-  TMethod extends keyof ChargeBee[TResource],
-> = ChargeBee[TResource][TMethod] extends (
-  id: string,
-  params?: infer P,
-) => RequestWrapper<infer R>
-  ? R extends ListResult
-    ? (id: string, params: P) => RequestWrapper<R>
-    : never
-  : ChargeBee[TResource][TMethod] extends (
-      params?: infer P,
-    ) => RequestWrapper<infer R>
-  ? R extends ListResult
-    ? (params: P) => RequestWrapper<R>
-    : never
-  : never;
-
-type ChargeBeeProcessWaitMethodName<
-  TResource extends keyof ChargeBee,
-  TMethod extends keyof ChargeBee[TResource],
-> = ChargeBee[TResource][TMethod] extends (...args: unknown[]) => ProcessWait
-  ? TMethod
-  : "Method must return a ProcessWait";
-
-type ResultConstructor<K extends keyof Result> = {
-  new (...args: unknown[]): Result[K];
+type ResourceResult = {
+  [K in keyof Result]?: {
+    optional: boolean;
+  };
 };
 
-type ResolveResult<T extends { [K in keyof Result]?: ResultConstructor<K> }> = {
-  [K in keyof T]: K extends keyof Result ? Result[K] : never;
+type ResolveResultReturn<T extends ResourceResult> = {
+  [K in keyof T]: K extends keyof Result
+    ? T[K] extends { optional: true }
+      ? Result[K] | undefined
+      : Result[K]
+    : never;
 };
-
-export abstract class ChargebeeResource {
-  constructor(protected readonly chargebee: ChargeBee) {}
-
-  private resolveGetters =
-    <TResult extends { [K in keyof Result]?: ResultConstructor<K> }>(
-      result: TResult,
-    ) =>
-    (value: Result) => {
-      const descriptors = Object.getOwnPropertyDescriptors(
-        value.constructor.prototype,
-      );
-      const properties = Object.entries(descriptors)
-        .filter(([, descriptor]) => typeof descriptor.get === "function")
-        .map(([key]) => key as keyof Result);
-      return Object.fromEntries(
-        properties
-          .filter((key) => Object.keys(result).includes(key))
-          .map((key) => [key, value[key]]),
-      ) as ResolveResult<TResult>;
-    };
-
-  protected request<
-    TResource extends keyof ChargeBee,
-    TMethod extends keyof ChargeBee[TResource],
-  >(
-    resourceProp: TResource,
-    methodProp: ChargeBeeResultMethodName<TResource, TMethod>,
-  ) {
-    return {
-      returns:
-        <TResult extends { [K in keyof Result]?: ResultConstructor<K> }>(
-          result: TResult,
-        ) =>
-        async (
-          ...args: Parameters<ChargeBeeResultFunction<TResource, TMethod>>
-        ): Promise<ResolveResult<TResult>> => {
-          return this.chargebee[resourceProp][methodProp as unknown as TMethod](
-            ...args,
-          )
-            .request()
-            .then(this.resolveGetters(result));
-        },
-    };
-  }
-
-  protected listRequest<
-    TResource extends keyof ChargeBee,
-    TMethod extends keyof ChargeBee[TResource],
-  >(
-    resourceProp: TResource,
-    methodProp: ChargeBeeListResultMethodName<TResource, TMethod>,
-  ) {
-    return {
-      returns:
-        <TResult extends { [K in keyof Result]?: ResultConstructor<K> }>(
-          result: TResult,
-        ) =>
-        async (
-          ...args: Parameters<ChargeBeeListResultFunction<TResource, TMethod>>
-        ): Promise<ResolveResult<TResult>[]> => {
-          const request = (offset: string | undefined): Promise<ListResult> => {
-            const forwardArgs = args.map((arg) =>
-              Object.assign(arg, { offset }),
-            );
-            return this.chargebee[resourceProp][
-              methodProp as unknown as TMethod
-            ](...forwardArgs).request();
-          };
-
-          let offset: string | undefined =
-            typeof args[1] === "object" &&
-            "offset" in args[1] &&
-            typeof args[1].offset === "string"
-              ? args[1]?.offset
-              : typeof args[0] === "object" &&
-                "offset" in args[0] &&
-                typeof args[0].offset === "string"
-              ? args[0]?.offset
-              : undefined;
-
-          const items: Result[] = [];
-
-          do {
-            const response = await request(offset);
-            items.push(...response.list);
-            offset = response.next_offset;
-          } while (offset);
-
-          return items.map(this.resolveGetters(result));
-        },
-    };
-  }
-
-  protected processWait<
-    TResource extends keyof ChargeBee,
-    TMethod extends keyof ChargeBee[TResource],
-  >(
-    resourceProp: TResource,
-    methodProp: ChargeBeeProcessWaitMethodName<TResource, TMethod>,
-  ) {
-    return {
-      returns:
-        <TResult extends { [K in keyof Result]?: ResultConstructor<K> }>(
-          result: TResult,
-        ) =>
-        async (
-          ...args: Parameters<ChargeBeeResultFunction<TResource, TMethod>>
-        ): Promise<ResolveResult<TResult>> => {
-          return await this.chargebee[resourceProp][
-            methodProp as unknown as TMethod
-          ](...args)
-            .request()
-            .then(this.resolveGetters(result));
-        },
-    };
-  }
-}
