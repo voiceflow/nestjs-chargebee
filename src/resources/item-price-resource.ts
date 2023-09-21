@@ -18,11 +18,11 @@ export class ItemPriceResource extends ChargebeeResource {
   public readonly findApplicableItems = super.listRequest(
     "item_price",
     "find_applicable_items",
-    { item_price: { optional: false } },
+    { item: { optional: false } },
   );
   public readonly findApplicableItemPrices = super.listRequest(
     "item_price",
     "find_applicable_item_prices",
-    { item_price: { optional: false } },
+    { item: { optional: false } },
   );
 }

@@ -2,25 +2,29 @@ import { ChargebeeResource } from "./abstract-resource";
 export class CustomerResource extends ChargebeeResource {
   public readonly create = super.request("customer", "create", {
     customer: { optional: false },
+    card: { optional: true },
   });
   public readonly list = super.listRequest("customer", "list", {
     customer: { optional: false },
+    card: { optional: true },
   });
   public readonly retrieve = super.request("customer", "retrieve", {
     customer: { optional: false },
+    card: { optional: true },
   });
   public readonly update = super.request("customer", "update", {
     customer: { optional: false },
+    card: { optional: true },
   });
   public readonly updatePaymentMethod = super.request(
     "customer",
     "update_payment_method",
-    { customer: { optional: false }, card: { optional: false } },
+    { customer: { optional: false }, card: { optional: true } },
   );
   public readonly updateBillingInfo = super.request(
     "customer",
     "update_billing_info",
-    { customer: { optional: false } },
+    { customer: { optional: false }, card: { optional: true } },
   );
   public readonly contactsForCustomer = super.listRequest(
     "customer",
@@ -34,43 +38,47 @@ export class CustomerResource extends ChargebeeResource {
   );
   public readonly addContact = super.request("customer", "add_contact", {
     customer: { optional: false },
+    card: { optional: true },
   });
   public readonly updateContact = super.request("customer", "update_contact", {
     customer: { optional: false },
+    card: { optional: true },
   });
   public readonly deleteContact = super.request("customer", "delete_contact", {
     customer: { optional: false },
+    card: { optional: true },
   });
   public readonly addPromotionalCredits = super.request(
     "customer",
     "add_promotional_credits",
-    { customer: { optional: false } },
+    { customer: { optional: false }, promotional_credit: { optional: false } },
   );
   public readonly deductPromotionalCredits = super.request(
     "customer",
     "deduct_promotional_credits",
-    { customer: { optional: false } },
+    { customer: { optional: false }, promotional_credit: { optional: false } },
   );
   public readonly setPromotionalCredits = super.request(
     "customer",
     "set_promotional_credits",
-    { customer: { optional: false } },
+    { customer: { optional: false }, promotional_credit: { optional: false } },
   );
   public readonly recordExcessPayment = super.request(
     "customer",
     "record_excess_payment",
-    { customer: { optional: false } },
+    { customer: { optional: false }, transaction: { optional: false } },
   );
   public readonly collectPayment = super.request(
     "customer",
     "collect_payment",
-    { customer: { optional: false } },
+    { customer: { optional: false }, transaction: { optional: false } },
   );
   public readonly delete = super.request("customer", "delete", {
     customer: { optional: false },
+    card: { optional: true },
   });
   public readonly move = super.request("customer", "move", {
-    customer: { optional: false },
+    resource_migration: { optional: false },
   });
   public readonly changeBillingDate = super.request(
     "customer",
@@ -94,7 +102,7 @@ export class CustomerResource extends ChargebeeResource {
     { customer: { optional: false } },
   );
   public readonly hierarchy = super.request("customer", "hierarchy", {
-    customer: { optional: false },
+    hierarchies: { optional: false },
   });
   public readonly updateHierarchySettings = super.request(
     "customer",
