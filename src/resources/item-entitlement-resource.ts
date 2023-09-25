@@ -1,4 +1,4 @@
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class ItemEntitlementResource extends ChargebeeResource {
   public readonly itemEntitlementsForItem = super.listRequest(
     "item_entitlement",

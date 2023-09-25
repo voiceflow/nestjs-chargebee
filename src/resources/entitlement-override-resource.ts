@@ -1,4 +1,4 @@
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class EntitlementOverrideResource extends ChargebeeResource {
   public readonly addEntitlementOverrideForSubscription = super.request(
     "entitlement_override",

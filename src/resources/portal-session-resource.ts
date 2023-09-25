@@ -1,4 +1,4 @@
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class PortalSessionResource extends ChargebeeResource {
   public readonly create = super.request("portal_session", "create", {
     portal_session: { optional: false },

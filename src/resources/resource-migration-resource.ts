@@ -1,4 +1,4 @@
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class ResourceMigrationResource extends ChargebeeResource {
   public readonly retrieveLatest = super.request(
     "resource_migration",

@@ -1,4 +1,4 @@
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class UnbilledChargeResource extends ChargebeeResource {
   public readonly createUnbilledCharge = super.request(
     "unbilled_charge",

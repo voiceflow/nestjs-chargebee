@@ -1,4 +1,4 @@
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class HostedPageResource extends ChargebeeResource {
   public readonly checkoutNew = super.request("hosted_page", "checkout_new", {
     hosted_page: { optional: false },

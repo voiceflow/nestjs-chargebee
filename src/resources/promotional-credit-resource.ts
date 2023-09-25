@@ -1,4 +1,4 @@
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class PromotionalCreditResource extends ChargebeeResource {
   public readonly add = super.request("promotional_credit", "add", {
     promotional_credit: { optional: false },

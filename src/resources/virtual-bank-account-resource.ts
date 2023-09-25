@@ -1,4 +1,4 @@
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class VirtualBankAccountResource extends ChargebeeResource {
   public readonly createUsingPermanentToken = super.request(
     "virtual_bank_account",

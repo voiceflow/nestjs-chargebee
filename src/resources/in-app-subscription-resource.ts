@@ -1,4 +1,4 @@
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class InAppSubscriptionResource extends ChargebeeResource {
   public readonly processReceipt = super.request(
     "in_app_subscription",

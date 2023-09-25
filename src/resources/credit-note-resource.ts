@@ -1,4 +1,4 @@
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class CreditNoteResource extends ChargebeeResource {
   public readonly create = super.request("credit_note", "create", {
     credit_note: { optional: false },

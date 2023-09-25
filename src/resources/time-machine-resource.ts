@@ -1,4 +1,4 @@
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class TimeMachineResource extends ChargebeeResource {
   public readonly waitForTimeTravelCompletion = super.processWait(
     "time_machine",

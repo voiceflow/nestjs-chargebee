@@ -1,4 +1,4 @@
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class PaymentSourceResource extends ChargebeeResource {
   public readonly createUsingTempToken = super.request(
     "payment_source",

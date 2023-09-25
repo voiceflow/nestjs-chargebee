@@ -1,4 +1,4 @@
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class FeatureResource extends ChargebeeResource {
   public readonly list = super.listRequest("feature", "list", {
     feature: { optional: false },

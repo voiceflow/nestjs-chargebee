@@ -1,4 +1,4 @@
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class PaymentVoucherResource extends ChargebeeResource {
   public readonly create = super.request("payment_voucher", "create", {
     payment_voucher: { optional: false },

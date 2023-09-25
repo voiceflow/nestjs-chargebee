@@ -1,4 +1,4 @@
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class QuoteResource extends ChargebeeResource {
   public readonly retrieve = super.request("quote", "retrieve", {
     quote: { optional: false },

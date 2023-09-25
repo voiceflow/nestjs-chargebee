@@ -1,4 +1,4 @@
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class ExportResource extends ChargebeeResource {
   public readonly waitForExportCompletion = super.processWait(
     "export",

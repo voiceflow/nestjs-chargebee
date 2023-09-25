@@ -1,4 +1,4 @@
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class ItemFamilyResource extends ChargebeeResource {
   public readonly create = super.request("item_family", "create", {
     item_family: { optional: false },

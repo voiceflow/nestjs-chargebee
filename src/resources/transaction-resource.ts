@@ -1,4 +1,4 @@
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class TransactionResource extends ChargebeeResource {
   public readonly createAuthorization = super.request(
     "transaction",
