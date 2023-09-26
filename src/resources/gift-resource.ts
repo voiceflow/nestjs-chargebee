@@ -9,7 +9,9 @@ export class GiftResource extends ChargebeeResource {
   public readonly retrieve = super.request("gift", "retrieve", {
     gift: { optional: false },
   });
-  public readonly list = super.listRequest("gift", "list");
+  public readonly list = super.listRequest("gift", "list", {
+    gift: { optional: false },
+  });
   public readonly claim = super.request("gift", "claim", {
     gift: { optional: false },
   });

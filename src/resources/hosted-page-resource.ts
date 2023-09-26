@@ -74,7 +74,9 @@ export class HostedPageResource extends ChargebeeResource {
   public readonly retrieve = super.request("hosted_page", "retrieve", {
     hosted_page: { optional: false },
   });
-  public readonly list = super.listRequest("hosted_page", "list");
+  public readonly list = super.listRequest("hosted_page", "list", {
+    hosted_page: { optional: false },
+  });
   public readonly preCancel = super.request("hosted_page", "pre_cancel", {
     hosted_page: { optional: false },
   });

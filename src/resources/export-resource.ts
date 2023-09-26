@@ -1,6 +1,6 @@
 import { ChargebeeResource } from "../chargebee-resource.class";
 export class ExportResource extends ChargebeeResource {
-  public readonly waitForExportCompletion = super.processWait(
+  public readonly waitForExportCompletion = super.request(
     "export",
     "wait_for_export_completion",
     { download: { optional: false } },

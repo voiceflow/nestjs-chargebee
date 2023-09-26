@@ -7,6 +7,7 @@ import type { Result } from "chargebee-typescript/lib/result";
 import type {
   ResourceResult,
   ResultMethodName,
+  ProcessWaitMethodName,
   ListResultMethodName,
   ResolveResultReturn,
 } from "./chargebee-resource.types";
@@ -20,7 +21,9 @@ export class ChargebeeResource {
     TReturning extends ResourceResult,
   >(
     resourceName: TResourceName,
-    methodName: TMethodName extends ResultMethodName<TResourceName, TMethodName>
+    methodName: TMethodName extends
+      | ResultMethodName<TResourceName, TMethodName>
+      | ProcessWaitMethodName<TResourceName, TMethodName>
       ? TMethodName
       : never,
     returning: TReturning,

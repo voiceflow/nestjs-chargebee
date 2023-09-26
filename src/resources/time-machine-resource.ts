@@ -1,6 +1,6 @@
 import { ChargebeeResource } from "../chargebee-resource.class";
 export class TimeMachineResource extends ChargebeeResource {
-  public readonly waitForTimeTravelCompletion = super.processWait(
+  public readonly waitForTimeTravelCompletion = super.request(
     "time_machine",
     "wait_for_time_travel_completion",
     { time_machine: { optional: false } },

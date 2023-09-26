@@ -12,5 +12,7 @@ export class DifferentialPriceResource extends ChargebeeResource {
   public readonly delete = super.request("differential_price", "delete", {
     differential_price: { optional: false },
   });
-  public readonly list = super.listRequest("differential_price", "list");
+  public readonly list = super.listRequest("differential_price", "list", {
+    differential_price: { optional: false },
+  });
 }

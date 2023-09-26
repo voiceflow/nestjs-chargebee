@@ -11,9 +11,9 @@ export type ResultMethodName<
 > = ChargeBee[TResource][TMethod] extends (
   ...args: unknown[]
 ) => RequestWrapper<infer R>
-  ? R extends Result | ProcessWait
+  ? R extends Result
     ? TMethod
-    : "Method must return a RequestWrapper<Result | ProcessWait>"
+    : "Method must return a RequestWrapper<Result>"
   : never;
 
 export type ListResultMethodName<
@@ -26,6 +26,13 @@ export type ListResultMethodName<
     ? TMethod
     : "Method must return a RequestWrapper<ListResult>"
   : never;
+
+export type ProcessWaitMethodName<
+  TResource extends keyof ChargeBee,
+  TMethod extends keyof ChargeBee[TResource],
+> = ChargeBee[TResource][TMethod] extends (...args: unknown[]) => ProcessWait
+  ? TMethod
+  : "Method must return a ProcessWait";
 
 export type ResourceResult = {
   [K in keyof Result]?: {
