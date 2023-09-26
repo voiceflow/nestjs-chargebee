@@ -83,5 +83,8 @@
     "@nestjs/common": "^9 || ^10",
     "rxjs": "^7"
   },
-  "packageManager": "yarn@3.4.1"
+  "packageManager": "yarn@3.4.1",
+  "volta": {
+    "node": "18.18.0"
+  }
 }
