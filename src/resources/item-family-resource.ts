@@ -1,19 +1,18 @@
-import { ItemFamily } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class ItemFamilyResource extends ChargebeeResource {
-  public readonly create = super
-    .request("item_family", "create")
-    .returns({ item_family: ItemFamily });
-  public readonly retrieve = super
-    .request("item_family", "retrieve")
-    .returns({ item_family: ItemFamily });
-  public readonly list = super
-    .listRequest("item_family", "list")
-    .returns({ item_family: ItemFamily });
-  public readonly update = super
-    .request("item_family", "update")
-    .returns({ item_family: ItemFamily });
-  public readonly delete = super
-    .request("item_family", "delete")
-    .returns({ item_family: ItemFamily });
+  public readonly create = super.request("item_family", "create", {
+    item_family: { optional: false },
+  });
+  public readonly retrieve = super.request("item_family", "retrieve", {
+    item_family: { optional: false },
+  });
+  public readonly list = super.listRequest("item_family", "list", {
+    item_family: { optional: false },
+  });
+  public readonly update = super.request("item_family", "update", {
+    item_family: { optional: false },
+  });
+  public readonly delete = super.request("item_family", "delete", {
+    item_family: { optional: false },
+  });
 }

@@ -1,16 +1,23 @@
-import { ItemEntitlement } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class ItemEntitlementResource extends ChargebeeResource {
-  public readonly itemEntitlementsForItem = super
-    .listRequest("item_entitlement", "item_entitlements_for_item")
-    .returns({ item_entitlement: ItemEntitlement });
-  public readonly itemEntitlementsForFeature = super
-    .listRequest("item_entitlement", "item_entitlements_for_feature")
-    .returns({ item_entitlement: ItemEntitlement });
-  public readonly addItemEntitlements = super
-    .request("item_entitlement", "add_item_entitlements")
-    .returns({ item_entitlement: ItemEntitlement });
-  public readonly upsertOrRemoveItemEntitlementsForItem = super
-    .request("item_entitlement", "upsert_or_remove_item_entitlements_for_item")
-    .returns({ item_entitlement: ItemEntitlement });
+  public readonly itemEntitlementsForItem = super.listRequest(
+    "item_entitlement",
+    "item_entitlements_for_item",
+    { item_entitlement: { optional: false } },
+  );
+  public readonly itemEntitlementsForFeature = super.listRequest(
+    "item_entitlement",
+    "item_entitlements_for_feature",
+    { item_entitlement: { optional: false } },
+  );
+  public readonly addItemEntitlements = super.request(
+    "item_entitlement",
+    "add_item_entitlements",
+    { item_entitlement: { optional: false } },
+  );
+  public readonly upsertOrRemoveItemEntitlementsForItem = super.request(
+    "item_entitlement",
+    "upsert_or_remove_item_entitlements_for_item",
+    { item_entitlement: { optional: false } },
+  );
 }

@@ -1,10 +1,9 @@
-import { Event } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class EventResource extends ChargebeeResource {
-  public readonly list = super
-    .listRequest("event", "list")
-    .returns({ event: Event });
-  public readonly retrieve = super
-    .request("event", "retrieve")
-    .returns({ event: Event });
+  public readonly list = super.listRequest("event", "list", {
+    event: { optional: false },
+  });
+  public readonly retrieve = super.request("event", "retrieve", {
+    event: { optional: false },
+  });
 }

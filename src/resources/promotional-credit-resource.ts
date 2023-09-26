@@ -1,19 +1,18 @@
-import { PromotionalCredit } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class PromotionalCreditResource extends ChargebeeResource {
-  public readonly add = super
-    .request("promotional_credit", "add")
-    .returns({ promotional_credit: PromotionalCredit });
-  public readonly deduct = super
-    .request("promotional_credit", "deduct")
-    .returns({ promotional_credit: PromotionalCredit });
-  public readonly set = super
-    .request("promotional_credit", "set")
-    .returns({ promotional_credit: PromotionalCredit });
-  public readonly list = super
-    .listRequest("promotional_credit", "list")
-    .returns({ promotional_credit: PromotionalCredit });
-  public readonly retrieve = super
-    .request("promotional_credit", "retrieve")
-    .returns({ promotional_credit: PromotionalCredit });
+  public readonly add = super.request("promotional_credit", "add", {
+    promotional_credit: { optional: false },
+  });
+  public readonly deduct = super.request("promotional_credit", "deduct", {
+    promotional_credit: { optional: false },
+  });
+  public readonly set = super.request("promotional_credit", "set", {
+    promotional_credit: { optional: false },
+  });
+  public readonly list = super.listRequest("promotional_credit", "list", {
+    promotional_credit: { optional: false },
+  });
+  public readonly retrieve = super.request("promotional_credit", "retrieve", {
+    promotional_credit: { optional: false },
+  });
 }

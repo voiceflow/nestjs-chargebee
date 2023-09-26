@@ -1,23 +1,24 @@
-import { Gift } from "chargebee-typescript/lib/resources";
-import { ChargebeeResource } from "./abstract-resource";
+import { ChargebeeResource } from "../chargebee-resource.class";
 export class GiftResource extends ChargebeeResource {
-  public readonly create = super
-    .request("gift", "create")
-    .returns({ gift: Gift });
-  public readonly createForItems = super
-    .request("gift", "create_for_items")
-    .returns({ gift: Gift });
-  public readonly retrieve = super
-    .request("gift", "retrieve")
-    .returns({ gift: Gift });
-  public readonly list = super.listRequest("gift", "list");
-  public readonly claim = super
-    .request("gift", "claim")
-    .returns({ gift: Gift });
-  public readonly cancel = super
-    .request("gift", "cancel")
-    .returns({ gift: Gift });
-  public readonly updateGift = super
-    .request("gift", "update_gift")
-    .returns({ gift: Gift });
+  public readonly create = super.request("gift", "create", {
+    gift: { optional: false },
+  });
+  public readonly createForItems = super.request("gift", "create_for_items", {
+    gift: { optional: false },
+  });
+  public readonly retrieve = super.request("gift", "retrieve", {
+    gift: { optional: false },
+  });
+  public readonly list = super.listRequest("gift", "list", {
+    gift: { optional: false },
+  });
+  public readonly claim = super.request("gift", "claim", {
+    gift: { optional: false },
+  });
+  public readonly cancel = super.request("gift", "cancel", {
+    gift: { optional: false },
+  });
+  public readonly updateGift = super.request("gift", "update_gift", {
+    gift: { optional: false },
+  });
 }
