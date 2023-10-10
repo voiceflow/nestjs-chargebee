@@ -47,3 +47,14 @@ export type ResolveResultReturn<T extends ResourceResult> = {
       : Result[K]
     : never;
 };
+
+type ListOptions = { options: { exhaust: boolean } };
+
+export type AddListOptions<T> = T extends (...args: infer Args) => infer R
+  ? (...args: Args | [...Args, ListOptions]) => R
+  : never;
+
+export const isListOptions = (arg: unknown): arg is ListOptions =>
+  typeof arg === "object" &&
+  "options" in arg &&
+  typeof arg.options === "object";
