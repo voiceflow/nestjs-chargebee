@@ -48,13 +48,5 @@ export type ResolveResultReturn<T extends ResourceResult> = {
     : never;
 };
 
-type ListOptions = { options: { exhaust: boolean } };
-
-export type AddListOptions<T> = T extends (...args: infer Args) => infer R
-  ? (...args: Args | [...Args, ListOptions]) => R
-  : never;
-
-export const isListOptions = (arg: unknown): arg is ListOptions =>
-  typeof arg === "object" &&
-  "options" in arg &&
-  typeof arg.options === "object";
+export const isListOffsetOption = (arg: unknown): arg is { offset: string } =>
+  typeof arg === "object" && "offset" in arg && typeof arg.offset === "string";

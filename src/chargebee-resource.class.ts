@@ -10,8 +10,7 @@ import {
   type ProcessWaitMethodName,
   type ListResultMethodName,
   type ResolveResultReturn,
-  isListOptions,
-  AddListOptions,
+  isListOffsetOption,
 } from "./chargebee-resource.types";
 
 export class ChargebeeResource {
@@ -71,38 +70,43 @@ export class ChargebeeResource {
       methodName
     ] as MethodDefinition;
 
-    return async (...args: Parameters<AddListOptions<MethodDefinition>>) => {
-      let nextOffset: string | undefined = args.find(
-        (arg): arg is { offset: string | undefined } =>
-          typeof arg === "object" &&
-          "offset" in arg &&
-          typeof arg.offset === "string",
-      )?.offset;
-
-      const exhaust = args.find(isListOptions)?.options?.exhaust ?? false;
-
-      const items: ResolveResultReturn<TReturning>[] = [];
-      do {
-        const newArgs = args.flatMap((arg) => {
-          // strip out or custom list options
-          if (isListOptions(arg)) return [];
-          // update offset on the proper argument (not our custom list options)
-          if (typeof arg === "object") {
-            return [{ ...arg, offset: nextOffset }];
-          }
-          return [arg];
+    const method = async (...args: Parameters<MethodDefinition>) => {
+      return functionDef(...args)
+        .request()
+        .then((listResult) => {
+          const items = listResult.list.map(this.resolveResult(returning));
+          return {
+            items,
+            nextOffset: listResult.next_offset as string | undefined,
+          };
         });
-
-        const listResult = await functionDef(...newArgs).request();
-        items.push(...listResult.list.map(this.resolveResult(returning)));
-        nextOffset = listResult.next_offset;
-      } while (exhaust && nextOffset);
-
-      return {
-        items,
-        nextOffset,
-      };
     };
+
+    const iterate = async function* (...args: Parameters<typeof method>) {
+      let offset = args.find(isListOffsetOption)?.offset;
+
+      do {
+        const forwardArgs = args.map((arg) =>
+          Object.assign(arg, { offset }),
+        ) as Parameters<typeof functionDef>;
+
+        const listResult = await method(...forwardArgs);
+        yield* listResult.items;
+        offset = listResult.nextOffset;
+      } while (offset);
+    };
+
+    const all = async (...args: Parameters<typeof method>) => {
+      const items: ResolveResultReturn<TReturning>[] = [];
+
+      for await (const result of iterate(...args)) {
+        items.push(result);
+      }
+
+      return items;
+    };
+
+    return Object.assign(method, { all, iterate });
   }
 
   private resolveResult =
