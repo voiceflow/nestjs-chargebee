@@ -47,3 +47,6 @@ export type ResolveResultReturn<T extends ResourceResult> = {
       : Result[K]
     : never;
 };
+
+export const isListOffsetOption = (arg: unknown): arg is { offset: string } =>
+  typeof arg === "object" && "offset" in arg && typeof arg.offset === "string";

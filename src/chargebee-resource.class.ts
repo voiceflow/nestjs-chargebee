@@ -4,12 +4,13 @@ import type { RequestWrapper } from "chargebee-typescript/lib/request_wrapper";
 import type { ListResult } from "chargebee-typescript/lib/list_result";
 import type { Result } from "chargebee-typescript/lib/result";
 
-import type {
-  ResourceResult,
-  ResultMethodName,
-  ProcessWaitMethodName,
-  ListResultMethodName,
-  ResolveResultReturn,
+import {
+  type ResourceResult,
+  type ResultMethodName,
+  type ProcessWaitMethodName,
+  type ListResultMethodName,
+  type ResolveResultReturn,
+  isListOffsetOption,
 } from "./chargebee-resource.types";
 
 export class ChargebeeResource {
@@ -69,7 +70,7 @@ export class ChargebeeResource {
       methodName
     ] as MethodDefinition;
 
-    return async (...args: Parameters<MethodDefinition>) => {
+    const method = async (...args: Parameters<MethodDefinition>) => {
       return functionDef(...args)
         .request()
         .then((listResult) => {
@@ -80,6 +81,32 @@ export class ChargebeeResource {
           };
         });
     };
+
+    const iterate = async function* (...args: Parameters<typeof method>) {
+      let offset = args.find(isListOffsetOption)?.offset;
+
+      do {
+        const forwardArgs = args.map((arg) =>
+          Object.assign(arg, { offset }),
+        ) as Parameters<typeof functionDef>;
+
+        const listResult = await method(...forwardArgs);
+        yield* listResult.items;
+        offset = listResult.nextOffset;
+      } while (offset);
+    };
+
+    const all = async (...args: Parameters<typeof method>) => {
+      const items: ResolveResultReturn<TReturning>[] = [];
+
+      for await (const result of iterate(...args)) {
+        items.push(result);
+      }
+
+      return items;
+    };
+
+    return Object.assign(method, { all, iterate });
   }
 
   private resolveResult =
