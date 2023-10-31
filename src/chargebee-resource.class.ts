@@ -1,5 +1,4 @@
 import type { ChargeBee } from "chargebee-typescript";
-
 import type { RequestWrapper } from "chargebee-typescript/lib/request_wrapper";
 import type { ListResult } from "chargebee-typescript/lib/list_result";
 import type { Result } from "chargebee-typescript/lib/result";
@@ -12,6 +11,7 @@ import {
   type ResolveResultReturn,
   isListOffsetOption,
 } from "./chargebee-resource.types";
+import { chargebeeResourceRetryPolicy } from "./chargebee-resource-retry";
 
 export class ChargebeeResource {
   constructor(protected readonly chargebee: ChargeBee) {}
@@ -40,9 +40,11 @@ export class ChargebeeResource {
     ] as MethodDefinition;
 
     return async (...args: Parameters<MethodDefinition>) => {
-      return functionDef(...args)
-        .request()
-        .then(this.resolveResult(returning));
+      return chargebeeResourceRetryPolicy.execute(() =>
+        functionDef(...args)
+          .request()
+          .then(this.resolveResult(returning)),
+      );
     };
   }
 
@@ -71,15 +73,17 @@ export class ChargebeeResource {
     ] as MethodDefinition;
 
     const method = async (...args: Parameters<MethodDefinition>) => {
-      return functionDef(...args)
-        .request()
-        .then((listResult) => {
-          const items = listResult.list.map(this.resolveResult(returning));
-          return {
-            items,
-            nextOffset: listResult.next_offset as string | undefined,
-          };
-        });
+      return chargebeeResourceRetryPolicy.execute(() =>
+        functionDef(...args)
+          .request()
+          .then((listResult) => {
+            const items = listResult.list.map(this.resolveResult(returning));
+            return {
+              items,
+              nextOffset: listResult.next_offset as string | undefined,
+            };
+          }),
+      );
     };
 
     const iterate = async function* (...args: Parameters<typeof method>) {
