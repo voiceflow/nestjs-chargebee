@@ -42,6 +42,7 @@ import { UnbilledChargeResource } from "./resources/unbilled-charge-resource";
 import { UsageResource } from "./resources/usage-resource";
 import { VirtualBankAccountResource } from "./resources/virtual-bank-account-resource";
 import { SubscriptionResource } from "./resources/subscription-resource";
+import { DownloadResource } from "./resources/download.resource";
 
 export class ChargebeeResourceWrapper {
   constructor(private readonly client: ChargeBee) {}
@@ -88,4 +89,5 @@ export class ChargebeeResourceWrapper {
   entitlementOverride = new EntitlementOverrideResource(this.client);
   purchase = new PurchaseResource(this.client);
   paymentVoucher = new PaymentVoucherResource(this.client);
+  download = new DownloadResource(this.client);
 }
