@@ -2,8 +2,8 @@ import https from "node:https";
 import { ChargebeeResource } from "../chargebee-resource.class";
 
 export class DownloadResource extends ChargebeeResource {
-  public readonly json = (url: string) =>
-    new Promise((resolve, reject) => {
+  public readonly json = <TResult = unknown>(url: string) =>
+    new Promise<TResult>((resolve, reject) => {
       https
         .get(url, (res) => {
           let body = "";
