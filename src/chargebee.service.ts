@@ -13,7 +13,9 @@ export class ChargebeeService extends ChargebeeResourceWrapper {
     @Optional()
     client = configureChargebee(options),
   ) {
-    super(client);
+    super(client, {
+      retry: options.retry,
+    });
   }
 }
 

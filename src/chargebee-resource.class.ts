@@ -11,10 +11,16 @@ import {
   type ResolveResultReturn,
   isListOffsetOption,
 } from "./chargebee-resource.types";
-import { chargebeeResourceRetryPolicy } from "./chargebee-resource-retry";
+import { getChargebeeResourceRetryPolicy } from "./chargebee-resource-retry";
+import type { ChargebeeResourceOptions } from "./chargebee-resource.interface";
 
 export class ChargebeeResource {
-  constructor(protected readonly chargebee: ChargeBee) {}
+  constructor(
+    protected readonly chargebee: ChargeBee,
+    protected readonly options: ChargebeeResourceOptions,
+  ) {}
+
+  private retryPolicy = getChargebeeResourceRetryPolicy(this.options.retry);
 
   protected request<
     TResourceName extends keyof ChargeBee,
@@ -40,7 +46,7 @@ export class ChargebeeResource {
     ] as MethodDefinition;
 
     return async (...args: Parameters<MethodDefinition>) => {
-      return chargebeeResourceRetryPolicy.execute(() =>
+      return this.retryPolicy.execute(() =>
         functionDef(...args)
           .request()
           .then(this.resolveResult(returning)),
@@ -73,7 +79,7 @@ export class ChargebeeResource {
     ] as MethodDefinition;
 
     const method = async (...args: Parameters<MethodDefinition>) => {
-      return chargebeeResourceRetryPolicy.execute(() =>
+      return this.retryPolicy.execute(() =>
         functionDef(...args)
           .request()
           .then((listResult) => {

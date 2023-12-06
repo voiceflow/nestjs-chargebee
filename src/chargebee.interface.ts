@@ -1,9 +1,11 @@
 export interface ChargebeeModuleOptions {
   site: string;
   apiKey: string;
-  retry?: false | ChargebeeRetryOptions
+  retry?: ChargebeeRetryOptions;
 }
 
-export interface ChargebeeRetryOptions {
-  maxAttempts?: number;
-}
+export type ChargebeeRetryOptions =
+  | false
+  | {
+      maxAttempts?: number;
+    };
