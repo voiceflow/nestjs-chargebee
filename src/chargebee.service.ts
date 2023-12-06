@@ -22,6 +22,15 @@ function configureChargebee(options: ChargebeeModuleOptions) {
   client.configure({
     site: options.site,
     api_key: options.apiKey,
+    ...(options.override?.hostSuffix
+      ? { hostSuffix: options.override.hostSuffix }
+      : {}),
+    ...(options.override?.apiPath ? { apiPath: options.override.apiPath } : {}),
+    ...(options.override?.protocol
+      ? { protocol: options.override.protocol }
+      : {}),
+    ...(options.override?.port ? { port: options.override.port } : {}),
+    ...(options.override?.timeout ? { timeout: options.override.timeout } : {}),
   });
   return client;
 }
