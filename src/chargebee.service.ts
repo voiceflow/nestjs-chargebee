@@ -22,6 +22,19 @@ function configureChargebee(options: ChargebeeModuleOptions) {
   client.configure({
     site: options.site,
     api_key: options.apiKey,
+    ...(options.override?.url ? extractURLOptions(options.override.url) : {}),
+    ...(options.override?.timeout ? { timeout: options.override.timeout } : {}),
   });
   return client;
+}
+
+function extractURLOptions(urlStr: string) {
+  const url = new URL(urlStr);
+
+  return {
+    hostSuffix: "." + url.host,
+    apiPath: url.pathname,
+    protocol: url.protocol.replace(":", ""),
+    port: url.port,
+  };
 }
