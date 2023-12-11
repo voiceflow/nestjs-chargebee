@@ -20,7 +20,7 @@ export class ChargebeeService extends ChargebeeResourceWrapper {
 function configureChargebee(options: ChargebeeModuleOptions) {
   const client = new ChargeBee();
   client.configure({
-    site: options.site,
+    site: options.override?.url ? "" : options.site,
     api_key: options.apiKey,
     ...(options.override?.url ? extractURLOptions(options.override.url) : {}),
     ...(options.override?.timeout ? { timeout: options.override.timeout } : {}),
@@ -32,7 +32,7 @@ function extractURLOptions(urlStr: string) {
   const url = new URL(urlStr);
 
   return {
-    hostSuffix: "." + url.host,
+    hostSuffix: url.host,
     apiPath: url.pathname,
     protocol: url.protocol.replace(":", ""),
     port: url.port,
