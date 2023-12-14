@@ -8,7 +8,7 @@ export const {
 } = new ConfigurableModuleBuilder<ChargebeeModuleOptions>()
   .setExtras(
     {
-      isGlobal: false,
+      isGlobal: true,
     },
     (definition, extras) => ({
       ...definition,
