@@ -1,4 +1,4 @@
-import type { ChargeBee } from "chargebee-typescript";
+import { ChargeBee } from "chargebee-typescript";
 
 import type { RequestWrapper } from "chargebee-typescript/lib/request_wrapper";
 import type { ListResult } from "chargebee-typescript/lib/list_result";
@@ -12,9 +12,13 @@ import {
   type ResolveResultReturn,
   isListOffsetOption,
 } from "./chargebee-resource.types";
+import { ChargebeeModuleOptions } from "./chargebee.interface";
+import { configureChargebee } from "./chargebee.utils";
 
 export class ChargebeeResource {
-  constructor(protected readonly chargebee: ChargeBee) {}
+  protected readonly chargebee = new ChargeBee();
+
+  constructor(protected readonly options: ChargebeeModuleOptions) {}
 
   protected request<
     TResourceName extends keyof ChargeBee,
@@ -40,6 +44,7 @@ export class ChargebeeResource {
     ] as MethodDefinition;
 
     return async (...args: Parameters<MethodDefinition>) => {
+      configureChargebee(this.chargebee, this.options);
       return functionDef(...args)
         .request()
         .then(this.resolveResult(returning));
@@ -71,6 +76,7 @@ export class ChargebeeResource {
     ] as MethodDefinition;
 
     const method = async (...args: Parameters<MethodDefinition>) => {
+      configureChargebee(this.chargebee, this.options);
       return functionDef(...args)
         .request()
         .then((listResult) => {
