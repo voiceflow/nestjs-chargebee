@@ -56,7 +56,7 @@ export class InvoiceResource extends ChargebeeResource {
     invoice: { optional: false },
   });
   public readonly pdf = super.request("invoice", "pdf", {
-    invoice: { optional: false },
+    download: { optional: false },
   });
   public readonly downloadEinvoice = super.request(
     "invoice",

@@ -13,6 +13,6 @@ export class UsageResource extends ChargebeeResource {
     usage: { optional: false },
   });
   public readonly pdf = super.request("usage", "pdf", {
-    usage: { optional: false },
+    download: { optional: false },
   });
 }
