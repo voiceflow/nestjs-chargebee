@@ -86,6 +86,6 @@ export class QuoteResource extends ChargebeeResource {
     quote: { optional: false },
   });
   public readonly pdf = super.request("quote", "pdf", {
-    quote: { optional: false },
+    download: { optional: false },
   });
 }
