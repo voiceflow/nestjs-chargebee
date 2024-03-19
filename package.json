@@ -6,6 +6,11 @@
       "types": "./build/types/main.d.ts",
       "import": "./build/esm/main.js",
       "default": "./build/cjs/main.js"
+    },
+    "./models": {
+      "types": "./build/types/models/mod.d.ts",
+      "import": "./build/esm/models/mod.js",
+      "default": "./build/cjs/models/mod.js"
     }
   },
   "main": "build/cjs/main.js",
