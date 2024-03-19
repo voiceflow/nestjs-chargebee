@@ -1,4 +1,4 @@
-import { Model } from "chargebee-typescript/lib/resources/model";
+import type { Model } from "chargebee-typescript/lib/resources/model";
 
 type FilterModelKeys<T extends Model> = {
   [K in keyof T]: K extends keyof Model ? never : K;
@@ -12,5 +12,9 @@ export type ResourceModelType<TResource extends Model> = {
     ...args: unknown[]
   ) => unknown
     ? never
+    : TResource[K] extends Model
+    ? ResourceModelType<TResource[K]>
+    : TResource[K] extends Array<Model>
+    ? Array<ResourceModelType<TResource[K][0]>>
     : TResource[K];
 };

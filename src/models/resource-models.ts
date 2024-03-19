@@ -9,7 +9,7 @@ Find: export \{ (\w+) as (\w+) \} from .+;
 Replace: export type $2 = ResourceModelType<Resources.$2>;
 
 Find: export \{ (\w+) \} from .+;
-Repalce: export type $1 = ResourceModelType<Resources.$1>;
+Replace: export type $1 = ResourceModelType<Resources.$1>;
 */
 
 export type Subscription = ResourceModelType<Resources.Subscription>;
