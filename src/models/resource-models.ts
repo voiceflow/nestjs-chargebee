@@ -1,6 +1,17 @@
 import type * as Resources from "chargebee-typescript/lib/resources";
 import type { ResourceModelType } from "./resource-model.type";
 
+/*
+Instructions to update:
+Grab each exported resource from `chargebee-typescript/lib/resources/index.d.ts` and use the follow find and replaces:
+
+Find: export \{ (\w+) as (\w+) \} from .+;
+Replace: export type $2 = ResourceModelType<Resources.$2>;
+
+Find: export \{ (\w+) \} from .+;
+Repalce: export type $1 = ResourceModelType<Resources.$1>;
+*/
+
 export type Subscription = ResourceModelType<Resources.Subscription>;
 export type SubscriptionSubscriptionItem =
   ResourceModelType<Resources.SubscriptionSubscriptionItem>;
@@ -158,6 +169,8 @@ export type TransactionLinkedRefund =
   ResourceModelType<Resources.TransactionLinkedRefund>;
 export type TransactionLinkedPayment =
   ResourceModelType<Resources.TransactionLinkedPayment>;
+export type TransactionGatewayErrorDetail =
+  ResourceModelType<Resources.TransactionGatewayErrorDetail>;
 export type HostedPage = ResourceModelType<Resources.HostedPage>;
 export type Estimate = ResourceModelType<Resources.Estimate>;
 export type SubscriptionEstimate =
@@ -275,6 +288,8 @@ export type ExportDownload = ResourceModelType<Resources.ExportDownload>;
 export type PaymentIntent = ResourceModelType<Resources.PaymentIntent>;
 export type PaymentIntentPaymentAttempt =
   ResourceModelType<Resources.PaymentIntentPaymentAttempt>;
+export type GatewayErrorDetail =
+  ResourceModelType<Resources.GatewayErrorDetail>;
 export type ItemFamily = ResourceModelType<Resources.ItemFamily>;
 export type Item = ResourceModelType<Resources.Item>;
 export type ItemApplicableItem =
@@ -313,3 +328,4 @@ export type Purchase = ResourceModelType<Resources.Purchase>;
 export type PaymentVoucher = ResourceModelType<Resources.PaymentVoucher>;
 export type PaymentVoucherLinkedInvoice =
   ResourceModelType<Resources.PaymentVoucherLinkedInvoice>;
+export type Entitlement = ResourceModelType<Resources.Entitlement>;
