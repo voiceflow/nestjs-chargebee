@@ -3150,12 +3150,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chargebee-typescript@npm:2.26.0":
-  version: 2.26.0
-  resolution: "chargebee-typescript@npm:2.26.0"
+"chargebee-typescript@npm:2.30.0":
+  version: 2.30.0
+  resolution: "chargebee-typescript@npm:2.30.0"
   dependencies:
     q: ">=1.0.1"
-  checksum: e9647776d864f57c2615448467249345459aeebc1e002749a7f7720d15a726ebe1f9d25804db8c5c86c79526b67ff6c56bda6b8255721f7b91e04cee5d3ebc3c
+  checksum: ebc3b8b52e9928245fe9c6f29f852b1c0b782476e3b3c39990394396e7564a1fe1acc3faddb52703b6c6203050b532800cd4aa3f3596403741c535213d3cbaff
   languageName: node
   linkType: hard
 
@@ -7488,7 +7488,7 @@ __metadata:
     "@types/supertest": ^2.0.12
     "@typescript-eslint/eslint-plugin": ^6.2.1
     "@typescript-eslint/parser": ^6.2.1
-    chargebee-typescript: 2.26.0
+    chargebee-typescript: 2.30.0
     eslint: ^8.46.0
     eslint-config-prettier: ^8.9.0
     eslint-plugin-prettier: ^5.0.0
