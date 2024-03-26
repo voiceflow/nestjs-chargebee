@@ -6,6 +6,11 @@
       "types": "./build/types/main.d.ts",
       "import": "./build/esm/main.js",
       "default": "./build/cjs/main.js"
+    },
+    "./models": {
+      "types": "./build/types/models/mod.d.ts",
+      "import": "./build/esm/models/mod.js",
+      "default": "./build/cjs/models/mod.js"
     }
   },
   "main": "build/cjs/main.js",
@@ -45,7 +50,7 @@
     ]
   },
   "dependencies": {
-    "chargebee-typescript": "2.26.0"
+    "chargebee-typescript": "2.30.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.7",

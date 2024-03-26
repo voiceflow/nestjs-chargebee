@@ -10,6 +10,7 @@ import { CouponSetResource } from "./resources/coupon-set-resource";
 import { CreditNoteResource } from "./resources/credit-note-resource";
 import { CustomerResource } from "./resources/customer-resource";
 import { DifferentialPriceResource } from "./resources/differential-price-resource";
+import { EntitlementResource } from "./resources/entitlement-resource";
 import { EntitlementOverrideResource } from "./resources/entitlement-override-resource";
 import { EstimateResource } from "./resources/estimate-resource";
 import { ExportResource } from "./resources/export-resource";
@@ -41,7 +42,8 @@ import { UsageResource } from "./resources/usage-resource";
 import { VirtualBankAccountResource } from "./resources/virtual-bank-account-resource";
 import { SubscriptionResource } from "./resources/subscription-resource";
 import { DownloadResource } from "./resources/download.resource";
-import { ChargebeeModuleOptions } from "./chargebee.interface";
+
+import type { ChargebeeModuleOptions } from "./chargebee.interface";
 
 export class ChargebeeResourceWrapper {
   constructor(private readonly options: ChargebeeModuleOptions) {}
@@ -85,6 +87,7 @@ export class ChargebeeResourceWrapper {
   itemEntitlement = new ItemEntitlementResource(this.options);
   inAppSubscription = new InAppSubscriptionResource(this.options);
   nonSubscription = new NonSubscriptionResource(this.options);
+  entitlement = new EntitlementResource(this.options);
   entitlementOverride = new EntitlementOverrideResource(this.options);
   purchase = new PurchaseResource(this.options);
   paymentVoucher = new PaymentVoucherResource(this.options);
