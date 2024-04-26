@@ -1,6 +1,6 @@
 import { ConfigurableModuleBuilder } from "@nestjs/common";
 
-import { ChargebeeModuleOptions } from "./chargebee.interface";
+import type { ChargebeeModuleOptions } from "./chargebee.interface";
 
 export const {
   ConfigurableModuleClass,

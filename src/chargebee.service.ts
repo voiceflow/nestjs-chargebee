@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 
-import { ChargebeeModuleOptions } from "./chargebee.interface";
+import type { ChargebeeModuleOptions } from "./chargebee.interface";
 import { CHARGEBEE_MODULE_OPTIONS_TOKEN } from "./chargebee.module-definition";
 import { ChargebeeResourceWrapper } from "./chargebee-resource-wrapper.class";
 

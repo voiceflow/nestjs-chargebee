@@ -12,7 +12,7 @@ import {
   type ResolveResultReturn,
   isListOffsetOption,
 } from "./chargebee-resource.types";
-import { ChargebeeModuleOptions } from "./chargebee.interface";
+import type { ChargebeeModuleOptions } from "./chargebee.interface";
 import { configureChargebee } from "./chargebee.utils";
 
 export class ChargebeeResource {
