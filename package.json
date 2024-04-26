@@ -28,7 +28,7 @@
     "build:cjs": "yarn prebuild:cjs && yarn swc src -d build/cjs --config module.type=commonjs && yarn postbuild:cjs",
     "postbuild:cjs": "touch build/cjs/package.json && echo '{ \"type\": \"commonjs\" }' > build/cjs/package.json",
     "prebuild:esm": "yarn rimraf build/esm",
-    "build:esm": "yarn prebuild:esm && yarn swc src -d build/esm --config module.type=es6 && yarn postbuild:esm",
+    "build:esm": "yarn prebuild:esm && yarn swc src -d build/esm --config module.type=es6 && tsc-alias --outDir build/esm -p tsconfig.build.json && yarn postbuild:esm",
     "postbuild:esm": "touch build/esm/package.json && echo '{ \"type\": \"module\" }' > build/esm/package.json",
     "build:types": "yarn tsc -p tsconfig.build.json",
     "test": "yarn jest --passWithNoTests",
@@ -89,7 +89,11 @@
     "rxjs": "^7"
   },
   "packageManager": "yarn@3.4.1",
+  "engines": {
+    "node": ">=18"
+  },
   "volta": {
-    "node": "18.18.0"
+    "node": "18.18.0",
+    "yarn": "3.4.1"
   }
 }
