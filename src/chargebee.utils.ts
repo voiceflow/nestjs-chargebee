@@ -18,7 +18,7 @@ export function extractURLOptions(urlStr: string) {
   const url = new URL(urlStr);
 
   return {
-    hostSuffix: url.host,
+    hostSuffix: url.hostname,
     apiPath: url.pathname,
     protocol: url.protocol.replace(":", ""),
     port: url.port,
